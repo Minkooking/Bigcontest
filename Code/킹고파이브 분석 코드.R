@@ -54,14 +54,14 @@ datacleanser <- function(inputdata,glmlasso_select=FALSE,compound_add=FALSE){
   # last 1year payment delay ratio
   character35 <- as.character(inputdata[,35])
   space <- rep(0,nrow(cleaned))
-  space[character35=='10¹Ì¸¸'] <- 5
-  space[character35=='20¹Ì¸¸'] <- 15
-  space[character35=='30¹Ì¸¸'] <- 25
-  space[character35=='40¹Ì¸¸'] <- 35
-  space[character35=='50¹Ì¸¸'] <- 45
-  space[character35=='60¹Ì¸¸'] <- 55
-  space[character35=='90¹Ì¸¸'] <- 75
-  space[character35=='90ÀÌ»ó'] <- 95
+  space[character35=='10ë¯¸ë§Œ'] <- 5
+  space[character35=='20ë¯¸ë§Œ'] <- 15
+  space[character35=='30ë¯¸ë§Œ'] <- 25
+  space[character35=='40ë¯¸ë§Œ'] <- 35
+  space[character35=='50ë¯¸ë§Œ'] <- 45
+  space[character35=='60ë¯¸ë§Œ'] <- 55
+  space[character35=='90ë¯¸ë§Œ'] <- 75
+  space[character35=='90ì´ìƒ'] <- 95
   cleaned[,35] <- space
 
   character53 <- as.character(inputdata[,53])
@@ -149,15 +149,15 @@ datacleanser <- function(inputdata,glmlasso_select=FALSE,compound_add=FALSE){
               revalue_column_conttable(original_data,5,2),
               revalue_column_conttable(original_data,6,2))
       )
-      # »ç¿ëÇÒ µ¥ÀÌÅÍ¸¦ ¸¸µå´Â °úÁ¤
+      # ì‚¬ìš©í•  ë°ì´í„°ë¥¼ ë§Œë“œëŠ” ê³¼ì •
       
       category_3456 <- rep(0,nrow(subsetted_factored))
       category_3456[subsetted_factored[,1]=='B'] <- category_3456[subsetted_factored[,1]=='B']+1
       category_3456[subsetted_factored[,2]=='B'] <- category_3456[subsetted_factored[,2]=='B']+2
       category_3456[subsetted_factored[,3]=='B'] <- category_3456[subsetted_factored[,3]=='B']+4
       category_3456[subsetted_factored[,4]=='B'] <- category_3456[subsetted_factored[,4]=='B']+8
-      # ÀÌ °úÁ¤À» ÅëÇØ 2*2*2*2=16°¡ÁöÀÇ °æ¿ìÀÇ ¼ö°¡ °ãÄ¡Áö ¾Ê°í 0ºÎÅÍ 15±îÁöÀÇ ¼ö¸¦ ¹èÁ¤¹Ş°Ô µÈ´Ù.
-      # ÀÌ·¸°Ô ÇÏ¸é 16ÁÙÀ» 4ÁÙ¸¸¿¡ ÄÚµùÇÒ ¼ö°¡ ÀÖ¾î¼­ ÁÁ´Ù.
+      # ì´ ê³¼ì •ì„ í†µí•´ 2*2*2*2=16ê°€ì§€ì˜ ê²½ìš°ì˜ ìˆ˜ê°€ ê²¹ì¹˜ì§€ ì•Šê³  0ë¶€í„° 15ê¹Œì§€ì˜ ìˆ˜ë¥¼ ë°°ì •ë°›ê²Œ ëœë‹¤.
+      # ì´ë ‡ê²Œ í•˜ë©´ 16ì¤„ì„ 4ì¤„ë§Œì— ì½”ë”©í•  ìˆ˜ê°€ ìˆì–´ì„œ ì¢‹ë‹¤.
       
       category_3456[category_3456==0] <- 'A'
       category_3456[category_3456==1] <- 'A'
@@ -179,7 +179,7 @@ datacleanser <- function(inputdata,glmlasso_select=FALSE,compound_add=FALSE){
       return(category_3456)
     }
     
-    # »ı¼º ----------------------------------------------------------------------
+    # ìƒì„± ----------------------------------------------------------------------
     comp3456 <- compound3456(inputdata)
     
     interact0709 <- compound_2var(inputdata,7,9,8,5)
@@ -233,7 +233,7 @@ datacleanser <- function(inputdata,glmlasso_select=FALSE,compound_add=FALSE){
     # lately_delayed
     lately_delayed <- ifelse(inputdata$CRMM_OVDU_AMT!=0|inputdata$CRLN_30OVDU_RATE!=0,1,0)
     
-    # »ğÀÔ ----------------------------------------------------------------------
+    # ì‚½ì… ----------------------------------------------------------------------
     
     cleaned$loaner_effect1 <- as.factor(comp3456)
     cleaned$credit_effect <- as.factor(interact0709)
@@ -246,7 +246,7 @@ datacleanser <- function(inputdata,glmlasso_select=FALSE,compound_add=FALSE){
     cleaned$lately_delayed=as.factor(lately_delayed)
   }
   return(cleaned)  
-} # ÇÇÇÇÆ¼, º¸°í¼­ ¹æÇâ´ë·Î µ¥ÀÌÅÍ¸¦ ÀüÃ³¸®ÇÏ°í ÆÄ»ıº¯¼ö¸¦ Ãß°¡ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù.
+} # í”¼í”¼í‹°, ë³´ê³ ì„œ ë°©í–¥ëŒ€ë¡œ ë°ì´í„°ë¥¼ ì „ì²˜ë¦¬í•˜ê³  íŒŒìƒë³€ìˆ˜ë¥¼ ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
 
 resampler <- function(inputdata,tr_rate){
   kingodata <- inputdata
@@ -254,7 +254,7 @@ resampler <- function(inputdata,tr_rate){
   index_one <- sample(which(kingodata$TARGET==1),round(length(which(kingodata$TARGET==1))*tr_rate,0),replace=F)
   kingotrain <<- rbind(kingodata[index_zero,],kingodata[index_one,])
   kingotest <<- kingodata[-as.numeric(rownames(kingotrain)),]
-} # inputdataÀÇ 0°ú 1 ºñÀ²À» 96:4·Î ¸ÂÃç¼­ tr_rateºñÀ²¸¸Å­ÀÇ Æ®·¹ÀÌ´× µ¥ÀÌÅÍ¿Í ³ª¸ÓÁö ºñÀ²¸¸Å­ÀÇ Å×½ºÆ® µ¥ÀÌÅÍ¸¦ »ı¼ºÇØÁÖ´Â ÇÔ¼ö
+} # inputdataì˜ 0ê³¼ 1 ë¹„ìœ¨ì„ 96:4ë¡œ ë§ì¶°ì„œ tr_rateë¹„ìœ¨ë§Œí¼ì˜ íŠ¸ë ˆì´ë‹ ë°ì´í„°ì™€ ë‚˜ë¨¸ì§€ ë¹„ìœ¨ë§Œí¼ì˜ í…ŒìŠ¤íŠ¸ ë°ì´í„°ë¥¼ ìƒì„±í•´ì£¼ëŠ” í•¨ìˆ˜
 
 critical_table <- function(data,index,result='distribution',scale=1,ppplot_ratio=0.9,quantile=seq(0.95,0.99,0.01)){
   if(result=='distribution'){return(table(data$TARGET,data[,index]))} else {
@@ -295,7 +295,7 @@ critical_table <- function(data,index,result='distribution',scale=1,ppplot_ratio
       }
     }
   }
-} # ½Ã°¢È­³ª µ¥ÀÌÅÍ Å½»öÀ» À§ÇØ »ç¿ëÇÑ ÇÔ¼ö
+} # ì‹œê°í™”ë‚˜ ë°ì´í„° íƒìƒ‰ì„ ìœ„í•´ ì‚¬ìš©í•œ í•¨ìˆ˜
 
 revalue_column_conttable <- function(mydata,target,ngroupA,label.A='A',label.B='B'){
   target_index <- ifelse(is.numeric(target),target,which(names(mydata)==target))
@@ -305,14 +305,14 @@ revalue_column_conttable <- function(mydata,target,ngroupA,label.A='A',label.B='
   storage[storage!='A'] <- label.B
   # direct indexing gurantees best performance in such ifelse setting.
   return(storage)
-} # Ã£¾Æ³½ ºĞÇÒÁöÁ¡À» ±âÁØÀ¸·Î ±× ÀüÀ» A, ±× ÈÄ¸¦ B·Î ÄÚµùÇØÁÖ´Â ÇÔ¼ö
+} # ì°¾ì•„ë‚¸ ë¶„í• ì§€ì ì„ ê¸°ì¤€ìœ¼ë¡œ ê·¸ ì „ì„ A, ê·¸ í›„ë¥¼ Bë¡œ ì½”ë”©í•´ì£¼ëŠ” í•¨ìˆ˜
 
 revalue_critical_table <- function(inputdata,colnum,seperator,inputresult='distribution'){
   criticaldata <- inputdata
   ngroupA <- which(as.numeric(levels(factor(inputdata[,colnum])))==seperator)
   criticaldata[,colnum] <- revalue_column_conttable(inputdata,colnum,ngroupA)
   return(critical_table(criticaldata,colnum,result=inputresult))
-} # ½Ã°¢È­³ª µ¥ÀÌÅÍ Å½»öÀ» À§ÇØ »ç¿ëÇÑ ÇÔ¼ö2
+} # ì‹œê°í™”ë‚˜ ë°ì´í„° íƒìƒ‰ì„ ìœ„í•´ ì‚¬ìš©í•œ í•¨ìˆ˜2
 
 compound_2var <- function(data,index1,index2,ngroupA1,ngroupA2,return_what='vector'){
   if(class(ngroupA1)=='character'){
@@ -329,8 +329,8 @@ compound_2var <- function(data,index1,index2,ngroupA1,ngroupA2,return_what='vect
   critical_table <- table(data$TARGET,correlator)
   cat('0:AA  1:AB  2:BA  3:BB\n\n')
   ifelse(return_what=='vector',return(correlator),return(critical_table))
-} # A,B·Î ºĞÇÒµÈ ÀÌº¯·® º¯¼ö µÎ °³¸¦ ÇÕÃÄÁÖ´Â ÇÔ¼öÀÔ´Ï´Ù.
-  # µÑ ´Ù A¸é 0, µÑ ´Ù B¸é 3, ÇÏ³ª¸¸ A¸é ±× ¼ø¼­¿¡ µû¶ó 1,2·Î ÄÚµùµË´Ï´Ù.
+} # A,Bë¡œ ë¶„í• ëœ ì´ë³€ëŸ‰ ë³€ìˆ˜ ë‘ ê°œë¥¼ í•©ì³ì£¼ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
+  # ë‘˜ ë‹¤ Aë©´ 0, ë‘˜ ë‹¤ Bë©´ 3, í•˜ë‚˜ë§Œ Aë©´ ê·¸ ìˆœì„œì— ë”°ë¼ 1,2ë¡œ ì½”ë”©ë©ë‹ˆë‹¤.
 
 
 # Searching interactions & compound variable --------------------------------
@@ -365,7 +365,7 @@ ordinal_signif_conttable <- function(inputdata,index){
     chisq <- c(chisq,n*((a*d-b*c)^2)/((a+b)*(c+d)*(a+c)*(b+d)))
   }
   return(data.frame(sep=seperator,chisquare=chisq))
-} # ÃÖÀûÀÇ ºĞÇÒÁöÁ¡À» Ã£¾ÆÁÖ´Â ÇÔ¼öÀÔ´Ï´Ù.
+} # ìµœì ì˜ ë¶„í• ì§€ì ì„ ì°¾ì•„ì£¼ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
 
 partition_finder <- function(colnum,nreplicate=5){
   seperator <- rep(0,nreplicate)
@@ -377,8 +377,8 @@ partition_finder <- function(colnum,nreplicate=5){
     chisquare[i] <- max(result$chisquare)
   }
   return(data.frame(sep=seperator,maxchisq=chisquare))
-} # »ùÇÃ¸µÀ» nreplicate¹ø ¸¸Å­ ¹İº¹ ½ÇÇàÇØ ÃÖÀûÀÇ ºĞÇÒÁöÁ¡À» Ã£¾ÆÁÖ´Â ÇÔ¼öÀÔ´Ï´Ù.
-  # ÀÌ ÇÔ¼ö¸¦ ¸ğµç º¯¼ö¿¡ ¹İº¹½ÇÇàÇØ °¡Àå ¾ÈÁ¤ÀûÀ¸·Î ¹ß°ßµÇ´Â ºĞÇÒÁöÁ¡À» »ç¿ëÇß½À´Ï´Ù.
+} # ìƒ˜í”Œë§ì„ nreplicateë²ˆ ë§Œí¼ ë°˜ë³µ ì‹¤í–‰í•´ ìµœì ì˜ ë¶„í• ì§€ì ì„ ì°¾ì•„ì£¼ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
+  # ì´ í•¨ìˆ˜ë¥¼ ëª¨ë“  ë³€ìˆ˜ì— ë°˜ë³µì‹¤í–‰í•´ ê°€ì¥ ì•ˆì •ì ìœ¼ë¡œ ë°œê²¬ë˜ëŠ” ë¶„í• ì§€ì ì„ ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤.
 
 # Interpretation model: lasso & boosting -----------------------------------------------
 
@@ -411,28 +411,28 @@ performance_tester <- function(training,test,coef_return=TRUE){
   } else{
     return(find_best_cutoff(test,cutoff))
   }
-} # lasso¸¦ ÅëÇÑ º¯¼ö¼±ÅÃ¿¡¼­ cutoffº° F-measure¸¦ Ãâ·ÂÇÏ°í ¿É¼Ç¿¡ µû¶ó ¼±ÅÃµÈ º¯¼öµµ Ãâ·ÂÇØÁÖ´Â ÇÔ¼öÀÔ´Ï´Ù.
-  # ÀÌ ÇÔ¼ö¸¦ 10¹ø ½ÇÇàÇØ º¯¼öº° »ıÁ¸ È½¼ö¸¦ ÀÛ¼ºÇß½À´Ï´Ù.
+} # lassoë¥¼ í†µí•œ ë³€ìˆ˜ì„ íƒì—ì„œ cutoffë³„ F-measureë¥¼ ì¶œë ¥í•˜ê³  ì˜µì…˜ì— ë”°ë¼ ì„ íƒëœ ë³€ìˆ˜ë„ ì¶œë ¥í•´ì£¼ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
+  # ì´ í•¨ìˆ˜ë¥¼ 10ë²ˆ ì‹¤í–‰í•´ ë³€ìˆ˜ë³„ ìƒì¡´ íšŸìˆ˜ë¥¼ ì‘ì„±í–ˆìŠµë‹ˆë‹¤.
 
 init_data <- datacleanser(start_data,F,F)
 for(i in 1:10){
   resampler(init_data,0.7)
   result <- performance_tester(kingotrain,kingotest)
   print(result$fmeasure)
-} # µ¥ÀÌÅÍ ÀüÃ³¸®¸¸ °ÅÄ£ µ¥ÀÌÅÍ·Î lasso cv¸¦ ½ÇÇàÇÏ´Â ÄÚµå
+} # ë°ì´í„° ì „ì²˜ë¦¬ë§Œ ê±°ì¹œ ë°ì´í„°ë¡œ lasso cvë¥¼ ì‹¤í–‰í•˜ëŠ” ì½”ë“œ
 
 init_data <- datacleanser(start_data,F,T)
 for(i in 1:10){
   resampler(init_data,0.7)
   result <- performance_tester(kingotrain,kingotest)
   print(result$fmeasure)
-} # ÀüÃ³¸®¸¦ °ÅÄ£ µ¥ÀÌÅÍ¿¡ ÆÄ»ıº¯¼ö¸¦ Ãß°¡ÇØ lasso cv¸¦ ½ÇÇàÇÏ´Â ÄÚµå
+} # ì „ì²˜ë¦¬ë¥¼ ê±°ì¹œ ë°ì´í„°ì— íŒŒìƒë³€ìˆ˜ë¥¼ ì¶”ê°€í•´ lasso cvë¥¼ ì‹¤í–‰í•˜ëŠ” ì½”ë“œ
 
 library(mboost)
 init_data <- datacleanser(start_data,F,T)
 resampler(init_data,0.7)
 kingo_gb <- glmboost(TARGET~.,data=kingotrain,family=Binomial(type='glm',link='logit'),control=boost_control(mstop=10000))
-  # glm componentwise gradient boost¸¦ ½ÇÇàÇØ º¯¼ö¸¦ ¼±ÅÃÇÏ´Â ÄÚµå
+  # glm componentwise gradient boostë¥¼ ì‹¤í–‰í•´ ë³€ìˆ˜ë¥¼ ì„ íƒí•˜ëŠ” ì½”ë“œ
 fmeasure_gb <- function(data,gbobject,cutoff){
   result <- matrix(0,nrow=2,ncol=length(cutoff))
   for(i in 1:length(cutoff)){
@@ -445,7 +445,7 @@ fmeasure_gb <- function(data,gbobject,cutoff){
   return(result)
 }
 fmeasure_gb(kingotest,kingo_gb,seq(0.155,0.175,0.001))
-  # ¼±ÅÃµÈ º¯¼ö¿Í »óÀÀÇÏ´Â °è¼ö¸¦ °¡Áö°í cutoffº° F-measure¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼ö
+  # ì„ íƒëœ ë³€ìˆ˜ì™€ ìƒì‘í•˜ëŠ” ê³„ìˆ˜ë¥¼ ê°€ì§€ê³  cutoffë³„ F-measureë¥¼ ì¶œë ¥í•˜ëŠ” í•¨ìˆ˜
 
 
 # Prediction Models (RandomForest, SVM, XGBoost ---------------------------
@@ -472,24 +472,24 @@ xg.cleansing=datacleanser(rawdata,compound_add = T)
 # Support Vector Machine --------------------------------------------------
 
 resampler(svm.cleansing,0.7)
-  # Æ®·¹ÀÌ´× µ¥ÀÌÅÍ:Å×½ºÆ® µ¥ÀÌÅÍ ºñÀ²À» 7:3À¸·Î ÇØ¼­ µ¥ÀÌÅÍ¸¦ ºĞÇÒÇÑ´Ù
+  # íŠ¸ë ˆì´ë‹ ë°ì´í„°:í…ŒìŠ¤íŠ¸ ë°ì´í„° ë¹„ìœ¨ì„ 7:3ìœ¼ë¡œ í•´ì„œ ë°ì´í„°ë¥¼ ë¶„í• í•œë‹¤
 
 svm.model=svm(factor(TARGET)~.-CUST_ID,data=kingotrain,kernel='radial',gamma=1/32,cost=3,class.weights=c('0'=0.25),scale = T)
 svm.pred=predict(svm.model,newdata=kingotest)
 
 a=confusionMatrix(svm.pred,kingotest$TARGET)
-  # Confusion Matrix¸¦ »ı¼ºÇÑ´Ù
+  # Confusion Matrixë¥¼ ìƒì„±í•œë‹¤
 
 precision <- a$table[2,2]/(a$table[1,2]+a$table[2,2])
 recall <- a$table[2,2]/(a$table[2,1]+a$table[2,2])
 f=2*precision*recall/(precision+recall)
-f # F°ªÀ» ¾ò´Â´Ù
+f # Fê°’ì„ ì–»ëŠ”ë‹¤
 
 
 # Random Forest -----------------------------------------------------------
 
 resampler(rf.cleansing,0.7) 
-  # Æ®·¹ÀÌ´× µ¥ÀÌÅÍ:Å×½ºÆ® µ¥ÀÌÅÍ ºñÀ²À» 7:3À¸·Î ÇØ¼­ µ¥ÀÌÅÍ¸¦ ºĞÇÒÇÑ´Ù
+  # íŠ¸ë ˆì´ë‹ ë°ì´í„°:í…ŒìŠ¤íŠ¸ ë°ì´í„° ë¹„ìœ¨ì„ 7:3ìœ¼ë¡œ í•´ì„œ ë°ì´í„°ë¥¼ ë¶„í• í•œë‹¤
 rf.model=randomForest(factor(TARGET)~.-CUST_ID,data=kingotrain,family='binomial',ntree=500,mtry=7)
 rf.pred=predict(rf.model,newdata=kingotest,type='class')
 
@@ -497,7 +497,7 @@ rf.table=confusionMatrix(rf.pred,kingotest$TARGET)
 
 precision <- rf.table$table[2,2]/(rf.table$table[1,2]+rf.table$table[2,2])
 recall <- rf.table$table[2,2]/(rf.table$table[2,1]+rf.table$table[2,2])
-f=2*precision*recall/(precision+recall) # F°ªÀ» ¾ò´Â´Ù
+f=2*precision*recall/(precision+recall) # Fê°’ì„ ì–»ëŠ”ë‹¤
 f
 
 
@@ -506,7 +506,7 @@ f
 XGdata=XGclean(xg.cleansing)
 str(XGdata,list.len=200)
 
-## Æ®·¹ÀÌ´×/Å×½ºÆ® ºĞÇÒ
+## íŠ¸ë ˆì´ë‹/í…ŒìŠ¤íŠ¸ ë¶„í• 
 n=nrow(XGdata)
 index=sample(1:n,0.7*n)
 XGtrain=XGdata[index,]
@@ -549,7 +549,7 @@ library(xgboost)
 library(e1071)
 library(dplyr)
 
-## train / test »ı¼ºµÈ ÀÌÈÄ¿¡ ¾²¸é 96:4·Î ºñÀ² Á¶Á¤!
+## train / test ìƒì„±ëœ ì´í›„ì— ì“°ë©´ 96:4ë¡œ ë¹„ìœ¨ ì¡°ì •!
 resampler <- function(tr.rate){
   kingodata <- data1
   index_zero <- sample(which(kingodata$TARGET==0),round(length(which(kingodata$TARGET==0))*tr.rate,0),replace=F)
@@ -611,7 +611,7 @@ XGclean=function(data){
 }
 
 
-### f1score ±¸ÇÏ´Â ÇÔ¼ö for XGboost
+### f1score êµ¬í•˜ëŠ” í•¨ìˆ˜ for XGboost
 f1value = function(preds, dtrain){
   labels = getinfo(dtrain, "label")
   preds = ifelse(preds<0.06,0,1)
@@ -623,7 +623,7 @@ f1value = function(preds, dtrain){
 
 
 
-### f1score ±¸ÇÏ´Â ÇÔ¼ö
+### f1score êµ¬í•˜ëŠ” í•¨ìˆ˜
 F1score = function(test,pred,rate){
   preds = as.numeric(pred > rate)
   labels = test$TARGET
@@ -667,7 +667,7 @@ binaryf1 = function(test,pred) {
 
 
 
-### µ¥ÀÌÅÍ ºÒ·¯¿À±â
+### ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸°
 data = read.csv(file.choose())
 data1 = datacleanser(data,glmlasso_select = FALSE, compound_add = TRUE)
 str(data1)
@@ -688,7 +688,7 @@ k=5
 folds=cvFolds(NROW(answer.train),K=k)
 acc=rep(0,10)
 
-meta=data.frame()  ##NULL data frame ¸¸µé±â 
+meta=data.frame()  ##NULL data frame ë§Œë“¤ê¸° 
 
 for(i in 1:k){
   train1=answer.train[folds$subsets[folds$which!=i],]    #set the training set
@@ -702,7 +702,7 @@ for(i in 1:k){
   dtest = xgb.DMatrix(XGtest[,-(1:2)], label = XGtest[,2])
   
   param = list(
-    booster = 'gbtree',   #dart °¡´É.
+    booster = 'gbtree',   #dart ê°€ëŠ¥.
     silent = 1,
     eta = 0.025,
     gamma = 0,
@@ -751,7 +751,7 @@ for(i in 1:k){
   # compute decision values and probabilities:
   svm.pred = predict(svm.model, newdata = validation1, decision.values = TRUE)
   svm.pred.resp = as.integer(svm.pred) - 1
-  svm.decisionV = as.numeric(attr(svm.pred, "decision.values"))       #0º¸´Ù ÀÛÀ¸¸é 1, Å©¸é 0
+  svm.decisionV = as.numeric(attr(svm.pred, "decision.values"))       #0ë³´ë‹¤ ì‘ìœ¼ë©´ 1, í¬ë©´ 0
   
   
   print(paste0(i,'/',k,' svm is finished',' : ',Sys.time()))
@@ -771,18 +771,18 @@ str(answer.train.meta)
 
 
 
-############################# test setÀÇ º¯¼ö°ª(°¢ ¸ğµ¨ÀÇ È®·ü°ª) ¸¸µé±â ################################
+############################# test setì˜ ë³€ìˆ˜ê°’(ê° ëª¨ë¸ì˜ í™•ë¥ ê°’) ë§Œë“¤ê¸° ################################
 
 ##1. xgboost ---------------------------------------------------------------------
-XGtrain=as.matrix(XGclean(answer.train)) ################## train ÀüÃ¼µ¥ÀÌÅÍ¸¦ ³Ö¾î¼­ xgboost modelÀ» ¸¸µç´Ù.
-XGtest=as.matrix(XGclean(answer.test)) ############# test µ¥ÀÌÅÍ™V ³Ö±â
+XGtrain=as.matrix(XGclean(answer.train)) ################## train ì „ì²´ë°ì´í„°ë¥¼ ë„£ì–´ì„œ xgboost modelì„ ë§Œë“ ë‹¤.
+XGtest=as.matrix(XGclean(answer.test)) ############# test ë°ì´í„°Â™V ë„£ê¸°
 dtrain = xgb.DMatrix(XGtrain[,-(1:2)], label = XGtrain[,2])
 dtest = xgb.DMatrix(XGtest[,-(1:2)], label = XGtest[,2])
 
 watchlist = list(test = dtest, train = dtrain)
 
 param = list(
-  booster = 'gbtree',   #dart °¡´É.
+  booster = 'gbtree',   #dart ê°€ëŠ¥.
   eta = 0.025,
   gamma = 0,
   max_depth = 120,
@@ -791,7 +791,7 @@ param = list(
   objective = 'binary:logistic',
   eval_metric = f1value)
 
-XGmodel = xgb.train(params = param, data = dtrain,    ## xgmodelÀ» ¸¸µé¶§¿¡´Â trainÀÇ ÀüÃ¼µ¥ÀÌÅÍ,  
+XGmodel = xgb.train(params = param, data = dtrain,    ## xgmodelì„ ë§Œë“¤ë•Œì—ëŠ” trainì˜ ì „ì²´ë°ì´í„°,  
                     nrounds = 1200)    
 xg.pred.test = predict(XGmodel,XGtest[,-(1:2)])
 xg.margin.test=predict(XGmodel,XGtest[,-(1:2)],outputmargin = T)
@@ -803,9 +803,9 @@ print(paste0('test xgb is finished',' : ',Sys.time()))
 ##2. GLM-------------------------------------------------------------------
 
 test.glm=glm(factor(TARGET)~. -CUST_ID,data=answer.train,family='binomial') 
-##¸¶Âù°¡Áö·Î trainset ÀüÃ¼¸¦ ÀÌ¿ëÇÏ¿© glm ¸ğµ¨À» ¸¸µé±â
+##ë§ˆì°¬ê°€ì§€ë¡œ trainset ì „ì²´ë¥¼ ì´ìš©í•˜ì—¬ glm ëª¨ë¸ì„ ë§Œë“¤ê¸°
 
-glm.pred.test=predict(test.glm, newdata=answer.test, type="response") ##À§¿¡¼­ ¸¸µé¾îÁø glmÀ¸·Î test™V ³Ö¾î¼­ test È®·ü°ª ¸¸µé±â 
+glm.pred.test=predict(test.glm, newdata=answer.test, type="response") ##ìœ„ì—ì„œ ë§Œë“¤ì–´ì§„ glmìœ¼ë¡œ testÂ™V ë„£ì–´ì„œ test í™•ë¥ ê°’ ë§Œë“¤ê¸° 
 
 
 print(paste0('test glm is finished',' : ',Sys.time()))
@@ -833,7 +833,7 @@ svm.model = svm(factor(TARGET)~CPT_LNIF_CNT + SPART_LNIF_CNT + TOT_LNIF_AMT +
 # compute decision values and probabilities:
 svm.pred = predict(svm.model, newdata = answer.test, decision.values = TRUE)
 svm.pred.resp.test = as.integer(svm.pred) - 1
-svm.decisionV.test = as.numeric(attr(svm.pred, "decision.values"))       #0º¸´Ù ÀÛÀ¸¸é 1, Å©¸é 0
+svm.decisionV.test = as.numeric(attr(svm.pred, "decision.values"))       #0ë³´ë‹¤ ì‘ìœ¼ë©´ 1, í¬ë©´ 0
 
 
 print(paste0('test svm is finished',' : ',Sys.time()))
@@ -841,7 +841,7 @@ print(paste0('test svm is finished',' : ',Sys.time()))
 
 
 
-##4. À§ÀÇ 3°³ÀÇ test set È®·ü°ªµé ºÙÀÌ±â ----------------------------------
+##4. ìœ„ì˜ 3ê°œì˜ test set í™•ë¥ ê°’ë“¤ ë¶™ì´ê¸° ----------------------------------
 
 
 test.meta=cbind(answer.test$CUST_ID,
@@ -855,41 +855,41 @@ test.meta$TARGET=as.factor(test.meta$TARGET)
 answer.test.meta = test.meta
 str(test.meta)
 
-############################################## ¸ŞÅ¸¸ğµ¨ ¸¸µé±â(GLM) #################################################
-## 1. ¸ğµ¨ ÀûÇÕ
+############################################## ë©”íƒ€ëª¨ë¸ ë§Œë“¤ê¸°(GLM) #################################################
+## 1. ëª¨ë¸ ì í•©
 
 answer.meta.glm=glm(TARGET~ SVM.D + XG.M + SVM.D*XG.M,data=answer.train.meta,family='binomial')
 summary(answer.meta.glm)
 plot(answer.meta.glm)
 
-## 2. ¸ğµ¨ prediction & F1±¸ÇÏ±â
+## 2. ëª¨ë¸ prediction & F1êµ¬í•˜ê¸°
 answer.metaglm.pred = predict(answer.meta.glm, newdata=answer.test.meta, type="response")
 plot(answer.metaglm.pred)
 
 GLM.final.pred = data.frame(cbind(answer.test.meta$CUST_ID,answer.metaglm.pred))
 selectcut(f1cut(answer.test.meta,GLM.final.pred[,2]))
 
-############################################## ¸ŞÅ¸¸ğµ¨ ¸¸µé±â(GAM) #################################################
-## 1. ¸ğµ¨ ÀûÇÕ
+############################################## ë©”íƒ€ëª¨ë¸ ë§Œë“¤ê¸°(GAM) #################################################
+## 1. ëª¨ë¸ ì í•©
 answer.meta.gam = gam(TARGET ~ s(SVM.D) + XG.M, data = answer.train.meta, family = 'binomial')
 summary(answer.meta.gam)
 plot(answer.meta.gam)
-## 2. ¸ğµ¨ prediction & F1±¸ÇÏ±â
+## 2. ëª¨ë¸ prediction & F1êµ¬í•˜ê¸°
 answer.metagam.pred = predict.gam(answer.meta.gam,newdata=answer.test.meta,type='response')
 plot(answer.metagam.pred)
 
 GAM.final.pred = data.frame(cbind(test.meta$CUST_ID,answer.metagam.pred))
 selectcut(f1cut(answer.test.meta,GAM.final.pred[,2]))
 
-############################################## ¸ğµ¨º° F1º§·ù ###############################################
+############################################## ëª¨ë¸ë³„ F1ë²¨ë¥˜ ###############################################
 ## 1. SVM F1
 binaryf1(answer.test.meta,answer.test.meta$SVM)
 
-## 2. GLM cutoff point Ã£±â
+## 2. GLM cutoff point ì°¾ê¸°
 selectcut(f1cut(answer.test.meta,answer.test.meta$GLM))
 
-## 3. LASSO cutoff point Ã£±â
+## 3. LASSO cutoff point ì°¾ê¸°
 selectcut(f1cut(answer.test.meta,answer.test.meta$LASSO))
 
-## 4. XGB cutoff point Ã£±â
+## 4. XGB cutoff point ì°¾ê¸°
 selectcut(f1cut(answer.test.meta,answer.test.meta$XG))
